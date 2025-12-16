@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casa & Conforto | Sua Casa Mais Prática</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">Casa<span class="highlight">&Conforto</span></div>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="O que sua casa precisa hoje?">
+                <button><i class="material-icons">search</i></button>
+            </div>
+
+            <div class="cart-area" onclick="abrirCarrinho()">
+                <i class="material-icons">shopping_cart</i>
+                <span id="cart-count">0</span>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero-banner">
+        <div class="hero-text">
+            <h1>Transforme sua Cozinha</h1>
+            <p>Utensílios práticos que economizam seu tempo.</p>
+            <button class="btn-hero" onclick="document.getElementById('vitrine').scrollIntoView({behavior: 'smooth'})">Ver Ofertas</button>
+        </div>
+    </section>
+
+    <section class="categories container">
+        <h2>Navegue por Categorias</h2>
+        <div class="category-grid">
+            <div class="cat-card" onclick="filtrarPorCategoria('cozinha')">
+                <i class="material-icons">kitchen</i>
+                <p>Cozinha</p>
+            </div>
+            <div class="cat-card" onclick="filtrarPorCategoria('organizacao')">
+                <i class="material-icons">checkroom</i>
+                <p>Organização</p>
+            </div>
+            <div class="cat-card" onclick="filtrarPorCategoria('decoracao')">
+                <i class="material-icons">local_florist</i>
+                <p>Decoração</p>
+            </div>
+            <div class="cat-card" onclick="renderizarProdutos()"> <i class="material-icons">view_list</i>
+                <p>Ver Todos</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="products container" id="vitrine">
+        <div class="section-header">
+            <h2>🔥 Vitrine de Produtos</h2>
+        </div>
+        
+        <div class="product-grid" id="container-produtos">
+            </div>
+    </section>
+
+    <footer>
+        <p>Casa & Conforto © 2024 - Enviamos para todo o Brasil 🇧🇷</p>
+    </footer>
+
+    <div id="toast-container"></div>
+
+    <div id="modal-carrinho" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" onclick="fecharCarrinho()">&times;</span>
+            <h2>O Teu Carrinho</h2>
+            
+            <div id="lista-itens-carrinho">
+                </div>
+
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="texto-total-preco">R$ 0,00</span>
+            </div>
+
+            <span class="close-modal" onclick="fecharCarrinho()">&times;</span>
+    
+    <h2 id="modal-titulo">Seu Carrinho</h2>
+    
+    <div id="view-carrinho">
+        <div id="lista-itens-carrinho">
+            </div>
+
+        <div class="cart-total">
+            <span>Total:</span>
+            <span id="texto-total-preco">R$ 0,00</span>
+        </div>
+
+        <button class="btn-checkout" onclick="irParaCheckout()">Finalizar Compra</button>
+    </div>
+
+    <div id="view-checkout" style="display: none;">
+        <form id="form-checkout" onsubmit="finalizarPedido(event)">
+            
+            <div class="input-group">
+                <label>Nome Completo</label>
+                <input type="text" placeholder="Ex: João da Silva" required>
+            </div>
+            
+            <div class="input-group">
+                <label>WhatsApp</label>
+                <input type="tel" placeholder="(00) 00000-0000" required>
+            </div>
+
+            <div class="input-group">
+                <label>Endereço de Entrega</label>
+                <input type="text" placeholder="Rua, Número, Bairro" required>
+            </div>
+
+            <div class="input-group">
+                <label>Forma de Pagamento</label>
+                <select required>
+                    <option value="">Selecione...</option>
+                    <option value="pix">Pix (Aprovação Imediata)</option>
+                    <option value="cartao">Cartão de Crédito</option>
+                </select>
+            </div>
+
+            <div class="checkout-actions">
+                <button type="button" class="btn-voltar" onclick="voltarParaCarrinho()">Voltar</button>
+                <button type="submit" class="btn-confirmar">Confirmar Pedido</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="modal-pix" class="modal-overlay">
+    <div class="modal-content pix-content">
+        <span class="close-modal" onclick="fecharModalPix()">&times;</span>
+        
+        <div class="pix-header">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo%E2%80%94pix_powered_by_Banco_Central_%28Brazil%2C_2020%29.svg" alt="Logo Pix" width="100">
+            <h3>Pague para finalizar seu pedido</h3>
+        </div>
+
+        <div class="pix-body">
+            <p>Valor total: <strong id="valor-pix-total">R$ 0,00</strong></p>
+            
+            <div class="qr-container">
+                <img id="img-qrcode" src="" alt="QR Code Pix">
+            </div>
+
+            <p class="instruction">Abra o app do seu banco e escaneie o código acima.</p>
+
+            <div class="copy-paste-area">
+                <label>Pix Copia e Cola:</label>
+                <div class="input-copy-group">
+                    <input type="text" id="pix-copia-cola" readonly value="">
+                    <button onclick="copiarCodigoPix()">
+                        <i class="material-icons" style="font-size: 16px;">content_copy</i> Copiar
+                    </button>
+                </div>
+            </div>
+            
+                <div class="pix-timer">
+                    Seu pedido expira em: <span id="timer">10:00</span>
+                </div>
+            </div>
+
+            <button class="btn-ja-paguei" onclick="simularAprovacao()">JÁ FIZ O PAGAMENTO</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
